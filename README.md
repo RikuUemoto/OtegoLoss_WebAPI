@@ -19,3 +19,7 @@
 
 ## Purchase&Delivery_address
 * ShippingInfo.php -- 配送手続きに必要な配送先情報を返すWebAPI
+
+## User
+* InsertAcount.php -- アカウント情報をユーザテーブルに追加するWebAPI
+* DeleteAcount.php -- ユーザテーブルからアカウント情報を削除するWebAPI
