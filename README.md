@@ -9,6 +9,7 @@
 * InsertProduct.php -- 商品テーブルに商品を追加するWebAPI
 * ListingHistory.php -- 出品履歴に必要な情報を返すWebAPI
 * ProductDetails.php -- 商品詳細画面に必要な商品詳細情報を返すWebAPI
+* UpdateProduct.php -- 商品テーブルの商品詳細情報を更新するWebAPI
 
 ## Product&Purchase
 * InsertPurchase.php -- 購入テーブルに購入情報を追加するWebAPI
