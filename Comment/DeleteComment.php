@@ -40,6 +40,8 @@ try{
         $stmt->execute();
         $count = $stmt->rowCount();
         if ($count == 0) {
+            // データベースとの接続を切断．
+            unset($db);
             die('comment_idが'.$param_comid.'でproduct_idが'.$param_proid.'のコメントは見つかりませんでした。');
         }
         echo 'comment_idが'.$param_comid.'でproduct_idが'.$param_proid.'のコメントが'.$count.'件見つかりました。';
@@ -56,6 +58,7 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
             unset($db);
             die('コメントの削除に失敗しました。');
         }

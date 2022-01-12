@@ -40,6 +40,8 @@ try{
         $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('最新コメントIDの取得に失敗しました。');
         }
         echo 'product_idが'.$param_proid.'の商品の最新コメントID取得に成功しました';
@@ -71,6 +73,8 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('登録失敗しました。');
         }
         print($param_combd);

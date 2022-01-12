@@ -97,6 +97,8 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('登録失敗しました。');
         }
         echo '登録完了しました';

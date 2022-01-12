@@ -52,6 +52,8 @@ try{
         $stmt->bindValue(':purchaser_id', $param_prrid, PDO::PARAM_STR);
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('最新購入IDの取得に失敗しました。');
         }
         echo 'purchaser_idが'.$param_prrid.'の購入情報の最新購入ID取得に成功しました';
@@ -84,6 +86,8 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('登録失敗しました。');
         }
         echo '登録完了しました';

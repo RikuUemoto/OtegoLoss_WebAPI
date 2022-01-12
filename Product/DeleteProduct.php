@@ -38,6 +38,8 @@ try{
         $stmt->execute();
         $count = $stmt->rowCount();
         if ($count == 0) {
+            // データベースとの接続を切断．
+            unset($db);
             die('product_idが'.$param_proid.'の商品は見つかりませんでした。');
         }
         echo 'product_idが'.$param_proid.'の商品が'.$count.'件見つかりました。';
@@ -53,6 +55,7 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
             unset($db);
             die('商品の削除に失敗しました。');
         }
