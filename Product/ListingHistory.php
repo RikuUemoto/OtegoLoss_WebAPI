@@ -30,7 +30,7 @@ try{
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
         
-        $arr = $sql2 -> fetchAll();
+        $arr = $sql2 -> fetchAll(PDO::FETCH_ASSOC);
 
     } else {
         // paramの値が不適ならstatusをnoにしてプログラム終了
