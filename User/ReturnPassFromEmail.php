@@ -1,13 +1,15 @@
 <?php
 /*
-    作成者：植元 陸
+    作成者：松尾　匠馬
     最終更新日：2022/1/12
-    目的：  出品履歴に必要な情報を返す
-    入力：  user_id
+    目的：メールアドレスからパスワードを返す
+    入力：user_mail
+    ※ ()はNULL可
+
     http通信例：
-    http://localhost/software_engineering/product/listinghistory.php?user_id=u0000001
+    http://localhost/OtegoLoss_WebAPI/User/ReturnPassFromEmail.php?user_mail=test@kochi-tech.ac.jp
     
-    その他：
+
 */
 
 //json形式ファイルのheader
@@ -18,14 +20,13 @@ try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
     echo "接続OK";
     // データベース
-    $data = "product";
+    $data = "user";
 
-    if(isset($_GET["user_id"])) {
+    if(isset($_GET["user_mail"])) {
         // numをエスケープ(xss対策)
-        $param = htmlspecialchars($_GET["user_id"]);
+        $param = htmlspecialchars($_GET["user_mail"]);
         //SQL構文
-        $table2 = "SELECT product_id, product_name, product_image, purchased
-                     FROM $data WHERE seller_id = '$param'";
+        $table2 = "SELECT user_password FROM $data WHERE user_mail = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
@@ -43,4 +44,6 @@ try{
 } catch(PDOException $e) {
     echo "error".$e->getMessage();
 }
+
+
 ?>

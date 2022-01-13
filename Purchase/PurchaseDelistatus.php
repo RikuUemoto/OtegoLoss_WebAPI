@@ -2,10 +2,10 @@
 /*
     作成者：植元 陸
     最終更新日：2022/1/12
-    目的：  出品履歴に必要な情報を返す
+    目的：  （アカウント削除前）購入IDと配送状況を返す
     入力：  user_id
     http通信例：
-    http://localhost/software_engineering/product/listinghistory.php?user_id=u0000001
+    http://localhost/OtegoLoss_WebAPI/purchase/purchasedelistatus.php?user_id=u0000005
     
     その他：
 */
@@ -18,14 +18,16 @@ try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
     echo "接続OK";
     // データベース
-    $data = "product";
+    $data = "purchase";
 
     if(isset($_GET["user_id"])) {
         // numをエスケープ(xss対策)
         $param = htmlspecialchars($_GET["user_id"]);
         //SQL構文
-        $table2 = "SELECT product_id, product_name, product_image, purchased
-                     FROM $data WHERE seller_id = '$param'";
+        $table2 = "SELECT purchase_id, delivery_status
+                    FROM $data
+                    WHERE purchaser_id = '$param'";
+
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);

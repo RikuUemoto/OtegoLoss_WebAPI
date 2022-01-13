@@ -14,7 +14,6 @@
     
     その他：product_desc, recipe_urlは$_POSTで入手しないと大きくなりすぎる可能性がある
     　　　　product_imageは画像パスを格納，画像自体はサーバのローカルディスク上とか
-    　　　　出来ればcheck制約が行えなかった日本語部分の制約は行う必要がある
 */
 
 #ステータスコードを追記する必要あり
@@ -26,7 +25,7 @@ header("Content-Type: application/json; charset=utf-8");
 // DBとの連携
 try{
     // データベースに接続する．
-    $db = new PDO('mysql:dbname=test;host=localhost;charset=utf8','root','root');
+    $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
     echo "接続OK";
 
     /* 最新の商品IDを取得 */
@@ -60,6 +59,20 @@ try{
             $param_reurl = htmlspecialchars($_GET["recipe_url"]);
         } else {
             $param_reurl = '';
+        }
+
+        // 日本語文字列を使うCHECK制約
+        if(strcmp($param_cate, "野菜") != 0 && strcmp($param_cate, "魚") != 0) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('登録失敗しました。categoryには"野菜"か"魚"を指定してください。');
+        }
+
+        if(strcmp($param_deliv, "普通") != 0 && strcmp($param_deliv, "冷蔵") != 0 
+                                                    && strcmp($param_deliv, "冷凍") != 0) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('登録失敗しました。delivery_methには"普通"か"冷蔵"か"冷凍"を指定してください。');
         }
 
         // SQL文をセット
@@ -97,6 +110,8 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
             die('登録失敗しました。');
         }
         echo '登録完了しました';
