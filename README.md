@@ -43,3 +43,6 @@
 
 ## Producer
 * InsertProducer.php -- 生産者情報を生産者テーブルに追加するWebAPI
+
+## Review
+* InsertReview.php -- レビューをレビューテーブルに追加するWebAPI
