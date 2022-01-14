@@ -32,3 +32,7 @@
 ## Credit_card
 * InsertCredit.php -- 決済情報をクレカテーブルに追加するWebAPI
 * DeleteCredit.php -- クレカテーブルから決済情報を削除するWebAPI
+
+## Delivery_address
+* InsertDelivery.php -- 配送先情報を配送先テーブルに追加するWebAPI
+* DeleteDelivery.php -- 配送先テーブルから配送先情報を削除するWebAPI
