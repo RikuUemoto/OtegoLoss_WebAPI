@@ -24,7 +24,25 @@
 * ShippingInfo.php -- 配送手続きに必要な配送先情報を返すWebAPI
 
 ## User
-* InsertAcount.php -- アカウント情報をユーザテーブルに追加するWebAPI
-* DeleteAcount.php -- ユーザテーブルからアカウント情報を削除するWebAPI
+* InsertAccount.php -- アカウント情報をユーザテーブルに追加するWebAPI
+* DeleteAccount.php -- ユーザテーブルからアカウント情報を削除するWebAPI
 * ReturnPassFromEmail.php -- メールアドレスからパスワードを返すWebAPI
 * ReturnUidFromWeight.php -- ユーザIDから重量を返す(ロス削減)WebAPI
+
+## Credit_card
+* InsertCredit.php -- 決済情報をクレカテーブルに追加するWebAPI
+* DeleteCredit.php -- クレカテーブルから決済情報を削除するWebAPI
+
+## Delivery_address
+* InsertDelivery.php -- 配送先情報を配送先テーブルに追加するWebAPI
+* DeleteDelivery.php -- 配送先テーブルから配送先情報を削除するWebAPI
+
+## Favorite
+* InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
+* DeleteFavorite.php -- お気に入り情報を返すWebAPI
+
+## Producer
+* InsertProducer.php -- 生産者情報を生産者テーブルに追加するWebAPI
+
+## Review
+* InsertReview.php -- レビューをレビューテーブルに追加するWebAPI
