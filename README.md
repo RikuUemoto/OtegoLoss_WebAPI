@@ -30,6 +30,7 @@
 * DeleteAccount.php -- ユーザテーブルからアカウント情報を削除するWebAPI
 * ReturnPassFromEmail.php -- メールアドレスからパスワードを返すWebAPI
 * ReturnUidFromWeight.php -- ユーザIDから重量を返す(ロス削減)WebAPI
+* UpdateProfile.php -- ユーザIDで変更したプロフィール情報(プロフィール画像、プロフィールメッセージ、ユーザ名)をテーブルに更新するWebAPI
 
 ## Credit_card
 * InsertCredit.php -- 決済情報をクレカテーブルに追加するWebAPI
