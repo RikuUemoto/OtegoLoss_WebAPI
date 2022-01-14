@@ -5,7 +5,7 @@
     目的：  ユーザテーブルからアカウント情報を削除
     入力：  user_id
     http通信例：
-    http://localhost/OtegoLoss_WebAPI/User/DeleteAcount.php?user_id=u0000001
+    http://localhost/OtegoLoss_WebAPI/User/DeleteAccount.php?user_id=u0000001
     
 */
 

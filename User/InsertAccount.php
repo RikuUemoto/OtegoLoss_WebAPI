@@ -8,12 +8,12 @@
     ※ ()はNULL可
 
     http通信例：
-    http://localhost/OtegoLoss_WebAPI/User/InsertAcount.php?user_password=abcdefghijk
+    http://localhost/OtegoLoss_WebAPI/User/InsertAccount.php?user_password=abcdefghijk
     &user_name=tanaka&user_mail=test@kochi-tech.ac.jp&gross_weight=100
     &user_profile_image=aaaaaaaaaaaaaaaaaaa
     &user_profile_message=私は高知県出身の農家です。
 
-    http://localhost/OtegoLoss_WebAPI/User/InsertAcount.php?user_password=abcdefghijk&
+    http://localhost/OtegoLoss_WebAPI/User/InsertAccount.php?user_password=abcdefghijk&
     user_name=tanaka&user_mail=test@kochi-tech.ac.jp&gross_weight=100
     &user_profile_image=aaaaaaaaaaaaaaaaaaa
     &user_profile_message=%E7%A7%81%E3%81%AF%E9%AB%98%E7%9F%A5%E7%9C%8C%E5%87%BA%E8%BA%AB%E3%81%AE%E8%BE%B2%E5%AE%B6%E3%81%A7%E3%81%99%E3%80%82
