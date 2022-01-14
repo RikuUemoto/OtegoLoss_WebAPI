@@ -40,3 +40,6 @@
 ## Favorite
 * InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
 * DeleteFavorite.php -- お気に入り情報を返すWebAPI
+
+## Producer
+* InsertProducer.php -- 生産者情報を生産者テーブルに追加するWebAPI
