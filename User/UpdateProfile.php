@@ -3,8 +3,8 @@
     作成者：松尾　匠馬
     最終更新日：2022/1/13
     目的：ユーザIDで変更したプロフィール情報(プロフィール画像、プロフィールメッセージ、ユーザ名)をテーブルに更新する(プロフィール)
-    入力：user_id user_password, user_name, user_mail, (user_profile_image),
-    　　　(user_profile_message), gross_weight
+    入力：user_id user_password, user_name, user_mail, user_profile_image,
+    　　　user_profile_message, gross_weight
     ※ ()はNULL可
 
     http通信例：
@@ -14,11 +14,6 @@
     &user_profile_image=aaaaaaaaABCDEFG
     &user_profile_message=私は高知県出身の農家です。この季節はナスがおすすめです。
 
-    
-    ※まだまだ途中なのでリクが作成した同じような動作を行うファイルを参考に修正する必要あり
-    あとファイル名についてもプッシュする前に修正する必要あり
-    
-    user_producer_flagについての扱いをどうするべきか検討が必要
 
 */
 
@@ -45,26 +40,14 @@ try{
         $param_uname = htmlspecialchars($_GET["user_name"]);
         $param_umail = htmlspecialchars($_GET["user_mail"]);
         $param_gweight = htmlspecialchars($_GET["gross_weight"]);
-
-        // user_profile_imageは任意
-        if (isset($_GET["user_profile_image"])) {
-            $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
-        } else {
-            $param_uprofileimg = '';
-        }
-
-        // user_profile_messageは任意
-        if (isset($_GET["user_profile_message"])) {
-            $param_uprofilemes = htmlspecialchars($_GET["user_profile_message"]);
-        } else {
-            $param_uprofilemes = '';
-        }
+        $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
+        $param_uprofilemes = htmlspecialchars($_GET["user_profile_message"]);
 
         // SQL文をセット
         $sql = "UPDATE $data 
                 SET user_password = :user_password, user_name = :user_name, 
                     user_mail = :user_mail, user_profile_image = :user_profile_image,
-                    user_profile_message = :user_profiel_message,
+                    user_profile_message = :user_profile_message,
                     gross_weight = :gross_weight
                 WHERE user_id = :user_id";
 
