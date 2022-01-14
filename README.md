@@ -36,3 +36,7 @@
 ## Delivery_address
 * InsertDelivery.php -- 配送先情報を配送先テーブルに追加するWebAPI
 * DeleteDelivery.php -- 配送先テーブルから配送先情報を削除するWebAPI
+
+## Favorite
+* InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
+* DeleteFavorite.php -- お気に入り情報を返すWebAPI
