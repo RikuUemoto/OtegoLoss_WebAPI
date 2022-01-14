@@ -33,12 +33,6 @@ try{
     if(isset($_GET["user_id"]) && isset($_GET["user_password"]) 
         && isset($_GET["user_name"]) && isset($_GET["user_mail"])
         && isset($_GET["gross_weight"])) {
-
-        if(strpos($_GET["gross_weight"],'.') != false){
-            // 入力は整数値しか許さない
-            unset($db);
-            die('gross_weightには整数値を入力してください．');
-        }
         
         // numをエスケープ(xss対策)
         $param_userid = htmlspecialchars($_GET["user_id"]);
