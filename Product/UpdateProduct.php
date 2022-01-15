@@ -47,6 +47,20 @@ try{
         $param_weigh = htmlspecialchars($_GET["weight"]);
         $param_pref = htmlspecialchars($_GET["prefecture"]);
 
+        /* 変更する対象が存在するかどうか確認 */
+        $sql = "SELECT * FROM product WHERE product_id = :product_id";
+        // クエリ(問い合わせ)
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count == 0) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('product_idが'.$param_proid.'の商品は見つかりませんでした。');
+        }
+        echo 'product_idが'.$param_proid.'の商品が'.$count.'件見つかりました。';
+
         // 日本語文字列を使うCHECK制約
         if(strcmp($param_cate, "野菜") != 0 && strcmp($param_cate, "魚") != 0) {
             // データベースとの接続を切断．
