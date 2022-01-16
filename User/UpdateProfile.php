@@ -44,7 +44,7 @@ try{
         $param_uprofilemes = htmlspecialchars($_GET["user_profile_message"]);
 
         /* 変更する対象が存在するかどうか確認 */
-        $sql = "SELECT * FROM purchase WHERE user_id = :user_id";
+        $sql = "SELECT * FROM user WHERE user_id = :user_id";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $param_userid, PDO::PARAM_STR);
@@ -53,9 +53,9 @@ try{
         if ($count == 0) {
             // データベースとの接続を切断．
             unset($db);
-            die('user_idが'.$param_userid.'の商品はないか，もしくは購入されていません。');
+            die('user_idが'.$param_userid.'のユーザは見つかりませんでした．');
         }
-        echo 'user_idが'.$param_userid.'の商品が'.$count.'件見つかりました。';
+        echo 'user_idが'.$param_userid.'のユーザが'.$count.'件見つかりました。';
 
         // SQL文をセット
         $sql = "UPDATE $data 
