@@ -77,6 +77,7 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            echo $stmt->errorinfo();
             die('登録失敗しました。');
         }
         echo '登録完了しました';
