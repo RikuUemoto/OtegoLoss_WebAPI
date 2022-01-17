@@ -32,16 +32,18 @@ try{
         $param_favorite_user_id = htmlspecialchars($_GET["favorite_user_id"]);
         
         /* 最新のお気に入りIDを取得 */
-        $sql = "SELECT favorite_id FROM favorite WHERE user_id = :user_id AND favorite_user_id = :favorite_user_id ORDER BY favorite_id DESC LIMIT 1";
+        $sql = "SELECT favorite_id FROM favorite WHERE user_id = :user_id ORDER BY favorite_id DESC LIMIT 1";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
         $stmt ->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
-        $stmt ->bindValue(':favorite_user_id', $param_favorite_user_id, PDO::PARAM_STR);
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
+            unset($db);
             die('最新お気に入りIDの取得に失敗しました。');
         }
-        echo 'user_idが'.$param_user_id.',favorite_user_idが'.$param_favorite_user_id.'のユーザの最新お気に入りID取得に成功しました';
+        echo 'user_idが'.$param_user_id.'のユーザの最新お気に入りID取得に成功しました';
 
         $favorite_id = $stmt->fetchAll(PDO::FETCH_ASSOC);
         print($favorite_id[0]["favorite_id"]);
@@ -69,6 +71,9 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
+            unset($db);
             die('登録失敗しました。');
         }
         echo '登録完了しました';
