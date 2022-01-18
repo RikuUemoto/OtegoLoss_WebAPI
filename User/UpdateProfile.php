@@ -1,11 +1,10 @@
 <?php
 /*
     作成者：松尾　匠馬
-    最終更新日：2022/1/13
+    最終更新日：2022/1/18
     目的：ユーザIDで変更したプロフィール情報(プロフィール画像、プロフィールメッセージ、ユーザ名)をテーブルに更新する(プロフィール)
-    入力：user_id user_password, user_name, user_mail, user_profile_image,
+    入力：user_id, user_password, user_name, user_mail, user_profile_image,
     　　　user_profile_message, gross_weight
-    ※ ()はNULL可
 
     http通信例：
     http://localhost/OtegoLoss_WebAPI/User/UpdateProfile.php?user_id=u0000002
@@ -32,7 +31,8 @@ try{
 
     if(isset($_GET["user_id"]) && isset($_GET["user_password"]) 
         && isset($_GET["user_name"]) && isset($_GET["user_mail"])
-        && isset($_GET["gross_weight"])) {
+        && isset($_GET["gross_weight"]) && isset($_GET["user_profile_image"]) 
+        && isset($_POST["user_profile_message"])) {
         
         // numをエスケープ(xss対策)
         $param_userid = htmlspecialchars($_GET["user_id"]);
@@ -41,7 +41,17 @@ try{
         $param_umail = htmlspecialchars($_GET["user_mail"]);
         $param_gweight = htmlspecialchars($_GET["gross_weight"]);
         $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
-        $param_uprofilemes = htmlspecialchars($_GET["user_profile_message"]);
+        $param_uprofilemes = $_POST["user_profile_message"];
+
+        // user_profile_imageは任意
+        if ($param_uprofileimg == '') {
+            $param_uprofileimg = NULL;
+        }
+
+        // user_profile_messageは任意
+        if ($param_uprofilemes == '') {
+            $param_uprofilemes = NULL;
+        }
 
         /* 変更する対象が存在するかどうか確認 */
         $sql = "SELECT * FROM user WHERE user_id = :user_id";
@@ -52,6 +62,7 @@ try{
         $count = $stmt->rowCount();
         if ($count == 0) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('user_idが'.$param_userid.'のユーザは見つかりませんでした．');
         }
@@ -81,6 +92,7 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('プロフィール情報の更新処理に失敗しました。');
         }

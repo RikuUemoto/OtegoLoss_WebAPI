@@ -1,11 +1,10 @@
 <?php
 /*
     作成者：松尾　匠馬
-    最終更新日：2022/1/12
+    最終更新日：2022/1/18
     目的：アカウント情報をテーブルに追加
-    入力：user_password, user_name, user_mail, (user_profile_image),
-    　　　(user_profile_message), gross_weight
-    ※ ()はNULL可
+    入力：user_password, user_name, user_mail, user_profile_image,
+    　　　user_profile_message, gross_weight
 
     http通信例：
     http://localhost/OtegoLoss_WebAPI/User/InsertAccount.php?user_password=abcdefghijk
@@ -46,7 +45,8 @@ try{
 
     // URL後の各クエリストリングをGET
     if(isset($_GET["user_password"]) && isset($_GET["user_name"]) 
-        && isset($_GET["user_mail"]) && isset($_GET["gross_weight"])) {
+        && isset($_GET["user_mail"]) && isset($_GET["gross_weight"])
+        && isset($_GET["user_profile_image"]) && isset($_POST["user_profile_message"]) ) {
 
 
             // 各クエリストリングをエスケープ(xss対策)
@@ -54,21 +54,19 @@ try{
             $param_uname = htmlspecialchars($_GET["user_name"]);
             $param_umail = htmlspecialchars($_GET["user_mail"]);
             $param_gweight = htmlspecialchars($_GET["gross_weight"]);
-        
+            $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
+            $param_uprofilemes = $_POST["user_profile_message"];
+
             // user_profile_imageは任意
-            if (isset($_GET["user_profile_image"])) {
-                $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
-            } else {
-                $param_uprofileimg = '';
+            if ($param_uprofileimg == '') {
+                $param_uprofileimg = NULL;
             }
 
             // user_profile_messageは任意
-            if (isset($_GET["user_profile_message"])) {
-                $param_uprofilemes = htmlspecialchars($_GET["user_profile_message"]);
-            } else {
-                $param_uprofilemes = '';
+            if ($param_uprofilemes == '') {
+                $param_uprofilemes = NULL;
             }
-
+            
             // SQL文をセット
             $sql = "INSERT INTO user VALUES (:user_id, :user_password, :user_name, :user_mail, 
                     :user_profile_image, :user_profile_message, false, :gross_weight)";
@@ -99,6 +97,7 @@ try{
             // dbにexecute
             $result = $stmt->execute();
             if (!$result) {
+                print_r($stmt->errorinfo());
                 unset($db);
                 die('登録失敗しました。');
             }

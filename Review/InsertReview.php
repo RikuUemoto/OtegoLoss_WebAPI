@@ -1,7 +1,7 @@
 <?php
 /*
-作成者：坂口 白磨
-    最終更新日：2022/1/
+    作成者：坂口 白磨
+    最終更新日：2022/1/8
     目的：  レビューをレビューデーブルに追加
             
     http通信例：
@@ -24,14 +24,18 @@ try{
     $data = "review";
     // URL後の各クエリストリングをGET
     if(isset($_GET["user_id"]) && isset($_GET["review_user_id"]) && isset($_GET["assessment"]) 
-    && isset($_GET["comment"])  ) {
+    && isset($_POST["comment"])  ) {
 
         // 各クエリストリングをエスケープ(xss対策)
         $param_user_id = htmlspecialchars($_GET["user_id"]); 
         $param_review_user_id = htmlspecialchars($_GET["review_user_id"]); 
         $param_assessment = htmlspecialchars($_GET["assessment"]);
-        $param_comment=htmlspecialchars($_GET["comment"]);  
-           
+        $param_comment = $_POST["comment"];
+
+        // commentは任意
+        if ($param_comment == '') {
+            $param_comment = NULL;
+        }
         
         /* 最新のレビューIDを取得 */
         $sql = "SELECT review_id FROM $data WHERE user_id = :user_id ORDER BY review_id DESC LIMIT 1";
@@ -41,8 +45,8 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
-
             die('最新レビューIDの取得に失敗しました。');
         }
         echo 'user_idが'.$param_user_id.'のユーザの最新レビューID取得に成功しました';
@@ -80,8 +84,8 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
-
             die('登録失敗しました。');
         }
         echo '登録完了しました';

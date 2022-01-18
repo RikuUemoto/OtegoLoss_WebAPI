@@ -1,7 +1,7 @@
 <?php
 /*
-作成者：坂口 白磨
-    最終更新日：2022/1/
+    作成者：坂口 白磨
+    最終更新日：2022/1/18
     目的：  配送先情報を配送先デーブルに追加
             
     http通信例：
@@ -25,14 +25,13 @@ try{
        isset($_GET["real_name"]) && 
        isset($_GET["telephone_number"]) && 
        isset($_GET["postal_code"]) && 
-       isset($_GET["address"])  ) {
+       isset($_POST["address"])  ) {
 
         // 各クエリストリングをエスケープ(xss対策)
         $param_user_id = htmlspecialchars($_GET["user_id"]);
         $param_real_name = htmlspecialchars($_GET["real_name"]);
         $param_telephone_number = htmlspecialchars($_GET["telephone_number"]);      
         $param_postal_code = htmlspecialchars($_GET["postal_code"]);
-        $param_address = htmlspecialchars($_GET["address"]);
         
         /* 最新の配送先IDを取得 */
         $sql = "SELECT d_address_id FROM $data WHERE user_id = :user_id ORDER BY d_address_id DESC LIMIT 1";
@@ -71,7 +70,7 @@ try{
         $stmt->bindValue(':real_name', $param_real_name, PDO::PARAM_STR);
         $stmt->bindValue(':telephone_number', $param_telephone_number, PDO::PARAM_STR);
         $stmt->bindValue(':postal_code', $param_postal_code, PDO::PARAM_STR);
-        $stmt->bindValue(':address', $param_address, PDO::PARAM_STR);
+        $stmt->bindValue(':address', $_POST['address'], PDO::PARAM_STR);
         
         
         // dbにexecute
