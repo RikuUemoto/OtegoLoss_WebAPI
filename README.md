@@ -43,6 +43,7 @@
 ## Favorite
 * InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
 * DeleteFavorite.php -- お気に入り情報を返すWebAPI
+* CheckFavorite.php -- ある出品者を、お気に入り登録しているか確認するWebAPI
 
 ## Producer
 * InsertProducer.php -- 生産者情報を生産者テーブルに追加するWebAPI
