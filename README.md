@@ -3,6 +3,7 @@
 ## Comment
 * DeleteComment.php -- コメントテーブルからコメントを削除するWebAPI
 * InsertComment.php -- コメントテーブルにコメントを追加するWebAPI
+* ListingComment.php -- 商品に寄せられたコメント(ユーザIDとコメント内容)をすべて表示する
 
 ## Product
 * DeleteProduct.php -- 商品テーブルから商品を削除するWebAPI
