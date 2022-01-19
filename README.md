@@ -32,6 +32,8 @@
 * ReturnPassFromEmail.php -- メールアドレスからパスワードを返すWebAPI
 * ReturnUidFromWeight.php -- ユーザIDから重量を返す(ロス削減)WebAPI
 * UpdateProfile.php -- ユーザIDで変更したプロフィール情報(プロフィール画像、プロフィールメッセージ、ユーザ名)をテーブルに更新するWebAPI
+* UserProfile.php -- ユーザテーブルのユーザIDからユーザ情報(ユーザID以外すべて)を返すWebAPI
+
 
 ## Credit_card
 * InsertCredit.php -- 決済情報をクレカテーブルに追加するWebAPI
@@ -51,3 +53,7 @@
 
 ## Review
 * InsertReview.php -- レビューをレビューテーブルに追加するWebAPI
+* Review.php -- レビューテーブルの生産者ID(ユーザID)からレビュー情報を返すWebAPI
+
+## Report
+* InsertReport.php -- 商品通報テーブル、アカウント通報テーブルに通報に関する情報を追加するWebAPI
