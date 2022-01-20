@@ -1,13 +1,13 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/11
+    最終更新日：2022/1/18
     目的：  コメントテーブルにコメントを追加
     入力：  product_id, user_id, comment_body
     http通信例：
-    http://localhost/software_engineering/Comment/AddComment.php?product_id=g0000008&user_id=u0000100&comment_body=A12345678910JQK
+    http://localhost/OtegoLoss_WebAPI/Comment/InsertComment.php?product_id=g0000008&user_id=u0000100&comment_body=A12345678910JQK
     
-    その他：comment_bodyは$_POSTで入手しないと大きくなりすぎる可能性がある
+    その他：
 */
 
 #ステータスコードを追記する必要あり
@@ -25,13 +25,18 @@ try{
 
     // URL後の各クエリストリングをGET
     if(isset($_GET["product_id"]) && isset($_GET["user_id"]) 
-                                    && isset($_GET["comment_body"])) {
+                                    && isset($_POST["comment_body"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
         $param_proid = htmlspecialchars($_GET["product_id"]);
         $param_usrid = htmlspecialchars($_GET["user_id"]);
-        $param_combd = htmlspecialchars($_GET["comment_body"]);
 
+        // comment_bodyは空文字列を許さない
+        if($_POST['comment_body'] == '') {
+            // データベースとの接続を切断．
+            unset($db);
+            die('コメントが何も入力されていません．コメントを入力してください．');
+        }
 
         /* 最新のコメントIDを取得 */
         $sql = "SELECT comment_id FROM comment WHERE product_id = :product_id ORDER BY comment_id DESC LIMIT 1";
@@ -41,6 +46,7 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('最新コメントIDの取得に失敗しました。');
         }
@@ -68,16 +74,16 @@ try{
         $stmt->bindValue(':comment_id', $new_comid, PDO::PARAM_INT);
         $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
         $stmt->bindValue(':user_id', $param_usrid, PDO::PARAM_STR);
-        $stmt->bindValue(':comment_body', $param_combd, PDO::PARAM_STR);
+        $stmt->bindValue(':comment_body', $_POST['comment_body'], PDO::PARAM_STR);
 
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('登録失敗しました。');
         }
-        print($param_combd);
         echo '登録完了しました';
 
     } else {

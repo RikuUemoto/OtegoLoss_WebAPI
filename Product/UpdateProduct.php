@@ -1,16 +1,19 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/13
+    最終更新日：2022/1/18
     目的：  商品テーブルの商品詳細情報を更新
     入力：  product_id, product_name, product_desc, product_image, recipe_url, 
     　　　　category, price, delivery_meth, weight, prefecture
     http通信例：
-    http://localhost/OtegoLoss_WebAPI/product/UpdateProduct.php?product_name=a
-    &product_desc=&product_image=a&category=%E9%AD%9A&price=3000
-    &delivery_meth=%E5%86%B7%E8%94%B5&weight=500&prefecture=1&seller_id=u0000008
-    &recipe_url=s&product_id=g0000111
+    http://localhost/OtegoLoss_WebAPI/product/UpdateProduct.php?product_id=g0015003
+    &product_name=僕の名前&product_image=fvsdlvjsk&category=%E9%AD%9A&price=3000&
+    delivery_meth=%E5%86%B7%E5%87%8D&weight=500&prefecture=39&seller_id=u0000004
     
+    $_POST：
+    product_desc=
+    recipe_url=
+
     その他：購入済みの商品の商品詳細情報は変更できないように処理を記述した方が良いのか？
     　　　　recipe_urlに関しては空文字列を送ってもらう
 */
@@ -31,21 +34,40 @@ try{
 
     // URL後の各クエリストリングをGET
     if(isset($_GET["product_id"]) && isset($_GET["product_name"]) 
-        && isset($_GET["product_desc"]) && isset($_GET["product_image"]) 
-        && isset($_GET["recipe_url"]) && isset($_GET["category"]) && isset($_GET["price"]) 
+        && isset($_POST["product_desc"]) && isset($_GET["product_image"]) 
+        && isset($_POST["recipe_url"]) && isset($_GET["category"]) && isset($_GET["price"]) 
         && isset($_GET["delivery_meth"]) && isset($_GET["weight"]) && isset($_GET["prefecture"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
         $param_proid= htmlspecialchars($_GET["product_id"]);
         $param_pname= htmlspecialchars($_GET["product_name"]);
-        $param_pdesc = htmlspecialchars($_GET["product_desc"]);
         $param_pimg = htmlspecialchars($_GET["product_image"]);      
-        $param_reurl = htmlspecialchars($_GET["recipe_url"]);      
         $param_cate = htmlspecialchars($_GET["category"]);
         $param_price = htmlspecialchars($_GET["price"]);
         $param_deliv = htmlspecialchars($_GET["delivery_meth"]);
         $param_weigh = htmlspecialchars($_GET["weight"]);
         $param_pref = htmlspecialchars($_GET["prefecture"]);
+        $param_reurl = $_POST['recipe_url'];
+
+        // recipe_urlは任意
+        if ($_POST['recipe_url'] == '') {
+            $param_reurl = NULL;
+        }
+
+        /* 変更する対象が存在するかどうか確認 */
+        $sql = "SELECT * FROM product WHERE product_id = :product_id";
+        // クエリ(問い合わせ)
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count == 0) {
+            // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
+            unset($db);
+            die('product_idが'.$param_proid.'の商品は見つかりませんでした。');
+        }
+        echo 'product_idが'.$param_proid.'の商品が'.$count.'件見つかりました。';
 
         // 日本語文字列を使うCHECK制約
         if(strcmp($param_cate, "野菜") != 0 && strcmp($param_cate, "魚") != 0) {
@@ -75,7 +97,7 @@ try{
         // パラメーターをセット
         $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
         $stmt->bindValue(':product_name', $param_pname, PDO::PARAM_STR);
-        $stmt->bindValue(':product_desc', $param_pdesc, PDO::PARAM_STR);
+        $stmt->bindValue(':product_desc', $_POST["product_desc"], PDO::PARAM_STR);
         $stmt->bindValue(':product_image', $param_pimg, PDO::PARAM_STR);
         $stmt->bindValue(':recipe_url', $param_reurl, PDO::PARAM_STR);
         $stmt->bindValue(':category', $param_cate, PDO::PARAM_STR);
@@ -88,6 +110,7 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('商品詳細情報の更新処理に失敗しました。');
         }

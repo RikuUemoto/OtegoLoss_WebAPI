@@ -81,8 +81,8 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
-
             die('登録失敗しました。');
         }
         echo '登録完了しました';

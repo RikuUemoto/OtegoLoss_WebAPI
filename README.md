@@ -3,6 +3,7 @@
 ## Comment
 * DeleteComment.php -- コメントテーブルからコメントを削除するWebAPI
 * InsertComment.php -- コメントテーブルにコメントを追加するWebAPI
+* ListingComment.php -- 商品に寄せられたコメント(ユーザIDとコメント内容)をすべて表示する
 
 ## Product
 * DeleteProduct.php -- 商品テーブルから商品を削除するWebAPI
@@ -10,6 +11,8 @@
 * ListingHistory.php -- 出品履歴に必要な情報を返すWebAPI
 * ProductDetails.php -- 商品詳細画面に必要な商品詳細情報を返すWebAPI
 * UpdateProduct.php -- 商品テーブルの商品詳細情報を更新するWebAPI
+* HomeProduct.php -- 商品詳細画面に必要な商品詳細情報を返すWebAPI
+* SearchProduct.php -- 指定した検索・並び替え条件を満たす商品情報を返すWebAPI
 
 ## Product&Purchase
 * InsertPurchase.php -- 購入テーブルに購入情報を追加するWebAPI
@@ -28,6 +31,9 @@
 * DeleteAccount.php -- ユーザテーブルからアカウント情報を削除するWebAPI
 * ReturnPassFromEmail.php -- メールアドレスからパスワードを返すWebAPI
 * ReturnUidFromWeight.php -- ユーザIDから重量を返す(ロス削減)WebAPI
+* UpdateProfile.php -- ユーザIDで変更したプロフィール情報(プロフィール画像、プロフィールメッセージ、ユーザ名)をテーブルに更新するWebAPI
+* UserProfile.php -- ユーザテーブルのユーザIDからユーザ情報(ユーザID以外すべて)を返すWebAPI
+
 
 ## Credit_card
 * InsertCredit.php -- 決済情報をクレカテーブルに追加するWebAPI
@@ -40,9 +46,14 @@
 ## Favorite
 * InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
 * DeleteFavorite.php -- お気に入り情報を返すWebAPI
+* CheckFavorite.php -- ある出品者を、お気に入り登録しているか確認するWebAPI
 
 ## Producer
 * InsertProducer.php -- 生産者情報を生産者テーブルに追加するWebAPI
 
 ## Review
 * InsertReview.php -- レビューをレビューテーブルに追加するWebAPI
+* Review.php -- レビューテーブルの生産者ID(ユーザID)からレビュー情報を返すWebAPI
+
+## Report
+* InsertReport.php -- 商品通報テーブル、アカウント通報テーブルに通報に関する情報を追加するWebAPI

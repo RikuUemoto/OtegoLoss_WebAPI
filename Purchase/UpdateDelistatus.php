@@ -30,6 +30,20 @@ try{
         // 各クエリストリングをエスケープ(xss対策)
         $param = htmlspecialchars($_GET["product_id"]);
 
+        /* 変更する対象が存在するかどうか確認 */
+        $sql = "SELECT * FROM purchase WHERE product_id = :product_id";
+        // クエリ(問い合わせ)
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':product_id', $param, PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count == 0) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('product_idが'.$param.'の商品はないか，もしくは購入されていません。');
+        }
+        echo 'product_idが'.$param.'の商品が'.$count.'件見つかりました。';
+
         // SQL文をセット
         $sql = "UPDATE $data SET delivery_status = true WHERE product_id = :product_id";
         $stmt = $db->prepare($sql);

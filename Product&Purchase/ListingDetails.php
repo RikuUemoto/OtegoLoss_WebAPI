@@ -20,7 +20,6 @@ try{
     // データベース
     $data_pur = "purchase";
     $data_pro = "product";
-    $data_usr = "user";
 
     if(isset($_GET["product_id"])) {
         // numをエスケープ(xss対策)
@@ -29,10 +28,9 @@ try{
         //SQL構文
         $table2 = "SELECT pro.product_name, pro.product_desc, pro.product_image, pro.recipe_url,
                     pro.category, pro.price, pro.delivery_meth, pro.listing_date,
-                    pro.weight, pro.prefecture, usr.user_name, pur.delivery_status
-                    FROM $data_pro pro, $data_pur pur, $data_usr usr
+                    pro.weight, pro.prefecture, pro.seller_id, pur.delivery_status
+                    FROM $data_pro pro, $data_pur pur
                     WHERE pro.product_id = pur.product_id
-                    AND pro.seller_id = usr.user_id
                     AND pro.product_id = '$param'";
 
         // メイン処理

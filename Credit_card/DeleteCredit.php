@@ -56,6 +56,7 @@ try{
         // dbにexecute
         $result = $stmt->execute();
         if (!$result) {
+            print_r($stmt->errorinfo());
             unset($db);
             die('決済情報の削除に失敗しました。');
         }

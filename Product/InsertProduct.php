@@ -1,19 +1,20 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/11
+    最終更新日：2022/1/18
     目的：  商品テーブルに商品を追加
-    入力：  product_name, product_desc, product_image, (recipe_url), category, price,
+    入力：  product_name, product_desc, product_image, recipe_url, category, price,
     　　　　delivery_meth, weight, prefecture, seller_id
-    　　　　※ ()はNULL可
+
     http通信例：
-    http://localhost/software_engineering/Product/InsertProduct.php?product_name=ai
-    &product_desc=1%EF%BC%91a%E3%81%82&product_image=fvsdlvjsk&category=%E9%AD%9A&price=3000
-    &delivery_meth=%E5%86%B7%E5%87%8D&weight=500&prefecture=39
-    &seller_id=u0000004&recipe_url=https://www.kochi-tech.ac.jp
+    http://localhost/OtegoLoss_WebAPI/Product/InsertProduct.php?product_name=僕の名前&product_image=fvsdlvjsk&
+    category=%E9%AD%9A&price=3000&delivery_meth=%E5%86%B7%E5%87%8D&weight=500&prefecture=39&seller_id=u0000004
     
-    その他：product_desc, recipe_urlは$_POSTで入手しないと大きくなりすぎる可能性がある
-    　　　　product_imageは画像パスを格納，画像自体はサーバのローカルディスク上とか
+    $_POST：
+    product_desc=
+    recipe_url=
+
+    その他：product_imageは画像パスを格納，画像自体はサーバのローカルディスク上とか
 */
 
 #ステータスコードを追記する必要あり
@@ -39,14 +40,13 @@ try{
 
 
     // URL後の各クエリストリングをGET
-    if(isset($_GET["product_name"]) && isset($_GET["product_desc"]) 
+    if(isset($_GET["product_name"]) && isset($_POST["product_desc"]) 
         && isset($_GET["product_image"]) && isset($_GET["category"]) 
-        && isset($_GET["price"]) && isset($_GET["delivery_meth"]) 
+        && isset($_GET["price"]) && isset($_GET["delivery_meth"]) && isset($_POST['recipe_url']) 
         && isset($_GET["weight"]) && isset($_GET["prefecture"]) && isset($_GET["seller_id"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
         $param_pname= htmlspecialchars($_GET["product_name"]);
-        $param_pdesc = htmlspecialchars($_GET["product_desc"]);
         $param_pimg = htmlspecialchars($_GET["product_image"]);      
         $param_cate = htmlspecialchars($_GET["category"]);
         $param_price = htmlspecialchars($_GET["price"]);
@@ -54,11 +54,11 @@ try{
         $param_weigh = htmlspecialchars($_GET["weight"]);
         $param_pref = htmlspecialchars($_GET["prefecture"]);
         $param_selid = htmlspecialchars($_GET["seller_id"]);
+        $param_reurl = $_POST['recipe_url'];
+
         // recipe_urlは任意
-        if (isset($_GET["recipe_url"])) {
-            $param_reurl = htmlspecialchars($_GET["recipe_url"]);
-        } else {
-            $param_reurl = '';
+        if ($_POST['recipe_url'] == '') {
+            $param_reurl = NULL;
         }
 
         // 日本語文字列を使うCHECK制約
@@ -97,7 +97,7 @@ try{
         // パラメーターをセット
         $stmt->bindValue(':product_id', $new_proid, PDO::PARAM_STR);
         $stmt->bindValue(':product_name', $param_pname, PDO::PARAM_STR);
-        $stmt->bindValue(':product_desc', $param_pdesc, PDO::PARAM_STR);
+        $stmt->bindValue(':product_desc', $_POST["product_desc"], PDO::PARAM_STR);
         $stmt->bindValue(':product_image', $param_pimg, PDO::PARAM_STR);
         $stmt->bindValue(':recipe_url', $param_reurl, PDO::PARAM_STR);
         $stmt->bindValue(':category', $param_cate, PDO::PARAM_STR);
@@ -111,6 +111,7 @@ try{
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
             die('登録失敗しました。');
         }

@@ -19,7 +19,6 @@ try{
     echo "接続OK";
     // データベース
     $data_pro = "product";
-    $data_usr = "user";
 
     if(isset($_GET["product_id"])) {
         // numをエスケープ(xss対策)
@@ -27,10 +26,9 @@ try{
         //SQL構文
         $table2 = "SELECT product_name, product_desc, product_image, recipe_url,
                             category, price, delivery_meth, listing_date,
-                            weight, prefecture, user_name, purchased
-                     FROM $data_pro, $data_usr 
-                     WHERE seller_id = user_id
-                     AND product_id = '$param'";
+                            weight, prefecture, seller_id, purchased
+                     FROM $data_pro
+                     WHERE product_id = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);

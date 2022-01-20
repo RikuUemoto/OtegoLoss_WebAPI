@@ -1,12 +1,13 @@
 <?php
 /*
-    作成者:坂口　白磨
-    最終更新日:2022/1/18
-    目的:  お気に入り情報を返す
-    http通信例:
-    http://localhost/software_engineering/Favorite/favorite.php?user_id=
+    作成者：松尾 匠馬
+    最終更新日：2022/1/19
+    目的：  レビューテーブルの生産者ID(ユーザID)からレビュー情報を返す(出品者情報)
+    入力：  review_id
+    http通信例：
+    http://localhost/OtegoLoss_WebAPI/product/Review.php?review_id=u0000111
     
-    その他:
+    その他：
 */
 
 //json形式ファイルのheader
@@ -16,14 +17,16 @@ header("Content-Type: application/json; charset=utf-8");
 try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
     echo "接続OK";
+    // データベース
+    $data_review = "review";
 
-    if(isset($_GET["user_id"])) {
+    if(isset($_GET["review_id"])) {
         // numをエスケープ(xss対策)
-        $param = htmlspecialchars($_GET["user_id"]);
+        $param = htmlspecialchars($_GET["review_id"]);
         //SQL構文
-        $table2 = "SELECT favorite_id,favorite_user_id
-                     FROM favorite
-                     WHERE user_id = '$param'";
+        $table2 = "SELECT user_id, review_user_id, assessment, comment
+                     FROM $data_review
+                     WHERE review_id = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
