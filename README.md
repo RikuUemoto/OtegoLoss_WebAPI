@@ -18,6 +18,7 @@
 * InsertPurchase.php -- 購入テーブルに購入情報を追加するWebAPI
 * PurchaseHistory.php -- 購入履歴に必要な情報を返すWebAPI
 * ListingDetails.php -- 出品履歴の商品詳細情報と配送状況を返すWebAPI
+* AddWeight.php -- ユーザテーブルのgrpss_weightに購入した商品の重量を加算する
 
 ## Purchase
 * PurchaseDelistatus.php -- （アカウント削除前）購入IDと配送状況を返すWebAPI
