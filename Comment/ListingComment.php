@@ -16,7 +16,7 @@ header("Content-Type: application/json; charset=utf-8");
 // DBとの連携
 try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
-    echo "接続OK";
+    //echo "接続OK";
     // データベース
     $data_com = "comment";
     

@@ -15,7 +15,7 @@ header("Content-Type: application/json; charset=utf-8");
 // DBとの連携
 try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
-    echo "接続OK";
+    //echo "接続OK";
 
     if(isset($_GET["user_id"])) {
         // numをエスケープ(xss対策)
