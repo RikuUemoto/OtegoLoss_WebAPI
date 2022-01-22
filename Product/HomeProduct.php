@@ -16,14 +16,15 @@ header("Content-Type: application/json; charset=utf-8");
 // DBとの連携
 try{
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
-    echo "接続OK";
+    //echo "接続OK";
     // データベース
     $data = "product";
 
 
     //SQL構文
     $table2 = "SELECT product_id, product_name, product_image, price, seller_id
-                    FROM $data ORDER BY listing_date ASC LIMIT 20";
+                    FROM $data WHERE purchased = false
+                    ORDER BY listing_date ASC LIMIT 20";
     // メイン処理
     $arr["status"] = "yes";
     $sql2 = $db->query($table2);
