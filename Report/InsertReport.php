@@ -39,7 +39,7 @@ try{
 
 
     // 通報の識別をするためreported_idの左端の文字(u or g)を変数に格納
-    $identifier = substr($_GET["reported_id"], 0, 1);
+    $identifier = substr(htmlspecialchars($_GET["reported_id"]), 0, 1);
 
 
     //商品通報
@@ -53,7 +53,7 @@ try{
         $param_report_reason = htmlspecialchars($_POST["report_reason"]);
         
         /* 最新の通報番号を取得 */
-        $sql = "SELECT report_number FROM $data_report_pro WHERE user_id = :user_id ORDER BY card_id DESC LIMIT 1";
+        $sql = "SELECT report_number FROM $data_report_pro WHERE user_id = :user_id ORDER BY report_number DESC LIMIT 1";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
         $stmt ->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
@@ -85,7 +85,7 @@ try{
 
         
         // パラメーターをセット
-        $stmt->bindValue(':card_id', $new_report_number, PDO::PARAM_INT);
+        $stmt->bindValue(':report_number', $new_report_number, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         $stmt->bindValue(':reported_id', $param_reported_id, PDO::PARAM_STR);
         $stmt->bindValue(':report_reason', $param_report_reason, PDO::PARAM_STR);
@@ -113,7 +113,7 @@ try{
         $param_report_reason = htmlspecialchars($_POST["report_reason"]);
         
         /* 最新の通報番号を取得 */
-        $sql = "SELECT report_number FROM $data_report_user WHERE user_id = :user_id ORDER BY card_id DESC LIMIT 1";
+        $sql = "SELECT report_number FROM $data_report_user WHERE user_id = :user_id ORDER BY report_number DESC LIMIT 1";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
         $stmt ->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
@@ -145,7 +145,7 @@ try{
 
         
         // パラメーターをセット
-        $stmt->bindValue(':card_id', $new_report_number, PDO::PARAM_INT);
+        $stmt->bindValue(':report_number', $new_report_number, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         $stmt->bindValue(':reported_id', $param_reported_id, PDO::PARAM_STR);
         $stmt->bindValue(':report_reason', $param_report_reason, PDO::PARAM_STR);
