@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/18
+    最終更新日：2022/1/24
     目的：  商品テーブルに商品を追加
     入力：  product_name, product_desc, product_image, recipe_url, category, price,
     　　　　delivery_meth, weight, prefecture, seller_id
@@ -104,7 +104,7 @@ try{
         $stmt->bindValue(':price', $param_price, PDO::PARAM_INT);
         $stmt->bindValue(':delivery_meth', $param_deliv, PDO::PARAM_STR);
         $stmt->bindValue(':weight', $param_weigh, PDO::PARAM_INT);
-        $stmt->bindValue(':prefecture', $param_pref, PDO::PARAM_INT);
+        $stmt->bindValue(':prefecture', $param_pref, PDO::PARAM_STR);
         $stmt->bindValue(':seller_id', $param_selid, PDO::PARAM_STR);
 
         // dbにexecute
