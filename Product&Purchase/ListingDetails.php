@@ -29,7 +29,7 @@ try{
         //SQL構文
         $table2 = "SELECT pro.product_name, pro.product_desc, pro.product_image, pro.recipe_url,
                     pro.category, pro.price, pro.delivery_meth, pro.listing_date,
-                    pro.weight, pro.prefecture, pro.seller_id, usr.user_name, pur.delivery_status
+                    pro.weight, pro.prefecture, pro.seller_id, usr.user_name, pro.purchased, pur.delivery_status
                     FROM $data_usr usr, $data_pro pro LEFT JOIN $data_pur pur ON pro.product_id = pur.product_id
                     WHERE pro.seller_id = usr.user_id
                     AND pro.product_id = '$param'";
