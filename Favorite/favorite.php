@@ -1,7 +1,7 @@
 <?php
 /*
     作成者:坂口　白磨
-    最終更新日:2022/1/18
+    最終更新日:2022/1/24
     目的:  お気に入り情報を返す
     http通信例:
     http://localhost/software_engineering/Favorite/favorite.php?user_id=
@@ -21,9 +21,10 @@ try{
         // numをエスケープ(xss対策)
         $param = htmlspecialchars($_GET["user_id"]);
         //SQL構文
-        $table2 = "SELECT favorite_id,favorite_user_id
-                     FROM favorite
-                     WHERE user_id = '$param'";
+        $table2 = "SELECT favorite_id,favorite_user_id,user_name
+                     FROM favorite,user
+                     WHERE favorite_user_id = user_id 
+                     AND user_id = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);

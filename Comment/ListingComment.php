@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：坂口 白磨
-    最終更新日：2022/1/19
+    最終更新日：2022/1/24
     目的：  商品に寄せられたコメント(ユーザIDとコメント内容)をすべて表示する
     入力：  product_id
     http通信例：
@@ -19,6 +19,7 @@ try{
     //echo "接続OK";
     // データベース
     $data_com = "comment";
+    $data_usr = "user";
     
 
     if(isset($_GET["product_id"])) {
@@ -26,9 +27,10 @@ try{
         $param = htmlspecialchars($_GET["product_id"]);
 
         //SQL構文
-        $table2 = "SELECT user_id,comment_body
-                    FROM $data_com
-                    WHERE product_id = '$param'";
+        $table2 = "SELECT $data_com.user_id,comment_body,user_name
+                    FROM $data_com,$data_usr
+                    WHERE $data_com.user_id = $data_usr.user_id
+                    AND product_id = '$param'";
 
         // メイン処理
         $arr["status"] = "yes";

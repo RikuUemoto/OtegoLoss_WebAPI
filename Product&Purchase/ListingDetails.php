@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/13
+    最終更新日：2022/1/24
     目的：  出品履歴の商品詳細情報と配送状況を返す
     入力：  product_id
     http通信例：
@@ -20,6 +20,7 @@ try{
     // データベース
     $data_pur = "purchase";
     $data_pro = "product";
+    $data_usr = "user";
 
     if(isset($_GET["product_id"])) {
         // numをエスケープ(xss対策)
@@ -28,9 +29,10 @@ try{
         //SQL構文
         $table2 = "SELECT pro.product_name, pro.product_desc, pro.product_image, pro.recipe_url,
                     pro.category, pro.price, pro.delivery_meth, pro.listing_date,
-                    pro.weight, pro.prefecture, pro.seller_id, pur.delivery_status
-                    FROM $data_pro pro, $data_pur pur
+                    pro.weight, pro.prefecture, pro.seller_id, usr.user_name, pur.delivery_status
+                    FROM $data_pro pro, $data_pur pur, $data_usr usr
                     WHERE pro.product_id = pur.product_id
+                    AND pro.seller_id = usr.user_id
                     AND pro.product_id = '$param'";
 
         // メイン処理

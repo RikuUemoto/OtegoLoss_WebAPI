@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/14
+    最終更新日：2022/1/24
     目的：  ホーム画面で出力する最新の商品20個の商品情報をを返す
     入力：  なし
     http通信例：
@@ -19,11 +19,14 @@ try{
     //echo "接続OK";
     // データベース
     $data = "product";
+    $data_usr = "user";
 
 
     //SQL構文
-    $table2 = "SELECT product_id, product_name, product_image, price, seller_id
-                    FROM $data WHERE purchased = false
+    $table2 = "SELECT product_id, product_name, product_image, price, seller_id, user_name
+                    FROM $data, $data_usr
+                    WHERE purchased = false
+                    AND seller_id = user_id
                     ORDER BY listing_date ASC LIMIT 20";
     // メイン処理
     $arr["status"] = "yes";

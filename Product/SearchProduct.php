@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/19
+    最終更新日：2022/1/24
     目的：  指定した検索・並び替え条件を満たす商品情報を返す
     入力：  product_name, category, price, delivery_meth, listing_date,
     　　　　weight, prefecture, user_name, sort_condition
@@ -46,7 +46,7 @@ try{
         $param_sorder = htmlspecialchars($_GET["sort_order"]);
 
         /* $sqlに実行するSQL文を作成していく */
-        $sql = "SELECT product_id, product_name, product_image, price, seller_id
+        $sql = "SELECT product_id, product_name, product_image, price, seller_id, user_name
                     FROM $data_pro, $data_usr WHERE seller_id = user_id 
                     AND purchased = false ";
         

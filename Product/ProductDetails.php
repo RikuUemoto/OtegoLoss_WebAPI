@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/12
+    最終更新日：2022/1/24
     目的：  商品詳細画面に必要な商品詳細情報を返す
     入力：  product_id
     http通信例：
@@ -19,6 +19,7 @@ try{
     //echo "接続OK";
     // データベース
     $data_pro = "product";
+    $data_usr = "user";
 
     if(isset($_GET["product_id"])) {
         // numをエスケープ(xss対策)
@@ -26,9 +27,10 @@ try{
         //SQL構文
         $table2 = "SELECT product_name, product_desc, product_image, recipe_url,
                             category, price, delivery_meth, listing_date,
-                            weight, prefecture, seller_id, purchased
-                     FROM $data_pro
-                     WHERE product_id = '$param'";
+                            weight, prefecture, seller_id, user_name, purchased
+                     FROM $data_pro, $data_usr
+                     WHERE product_id = '$param'
+                     AND seller_id = user_id";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
