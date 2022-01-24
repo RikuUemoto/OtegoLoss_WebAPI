@@ -28,7 +28,7 @@ try{
         $table2 = "SELECT review_user_id, user_name, assessment, comment
                      FROM $data_review, $data_usr
                      WHERE $data_review.user_id = '$param'
-                     AND review_user_id = user_id";
+                     AND review_user_id = $data_usr.user_id";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
