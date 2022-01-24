@@ -104,7 +104,7 @@ try{
         $stmt->bindValue(':price', $param_price, PDO::PARAM_INT);
         $stmt->bindValue(':delivery_meth', $param_deliv, PDO::PARAM_STR);
         $stmt->bindValue(':weight', $param_weigh, PDO::PARAM_INT);
-        $stmt->bindValue(':prefecture', $param_pref, PDO::PARAM_INT);
+        $stmt->bindValue(':prefecture', $param_pref, PDO::PARAM_STR);
 
         // dbにexecute
         $result = $stmt->execute();
