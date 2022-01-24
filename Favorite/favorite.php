@@ -23,8 +23,8 @@ try{
         //SQL構文
         $table2 = "SELECT favorite_id,favorite_user_id,user_name
                      FROM favorite,user
-                     WHERE favorite_user_id = user_id 
-                     AND user_id = '$param'";
+                     WHERE favorite_user_id = user.user_id 
+                     AND favorite.user_id = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
