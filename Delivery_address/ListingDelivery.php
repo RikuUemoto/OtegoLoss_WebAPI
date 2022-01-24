@@ -27,7 +27,7 @@ try{
         $table2 = "SELECT d_address_id,user_id,real_name,telephone_number
                             postal_code,address
                      FROM $data_deliad
-                     WHERE favorite.user_id = '$param'";
+                     WHERE $data_deliad.user_id = '$param'";
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
