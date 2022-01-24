@@ -24,7 +24,7 @@ try{
         // numをエスケープ(xss対策)
         $param = htmlspecialchars($_GET["user_id"]);
         //SQL構文
-        $table2 = "SELECT d_address_id,user_id,real_name,telephone_number
+        $table2 = "SELECT d_address_id,user_id,real_name,telephone_number,
                             postal_code,address
                      FROM $data_deliad
                      WHERE $data_deliad.user_id = '$param'";
