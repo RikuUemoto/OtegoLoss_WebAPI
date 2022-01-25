@@ -21,17 +21,17 @@ try{
     echo "接続OK";
     $data = "delivery_address";
     // URL後の各クエリストリングをGET
-    if(isset($_GET["user_id"]) && 
-       isset($_GET["real_name"]) && 
-       isset($_GET["telephone_number"]) && 
-       isset($_GET["postal_code"]) && 
+    if(isset($_POST["user_id"]) && 
+       isset($_POST["real_name"]) && 
+       isset($_POST["telephone_number"]) && 
+       isset($_POST["postal_code"]) && 
        isset($_POST["address"])  ) {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_user_id = htmlspecialchars($_GET["user_id"]);
-        $param_real_name = htmlspecialchars($_GET["real_name"]);
-        $param_telephone_number = htmlspecialchars($_GET["telephone_number"]);      
-        $param_postal_code = htmlspecialchars($_GET["postal_code"]);
+        $param_user_id = htmlspecialchars($_POST["user_id"]);
+        $param_real_name = htmlspecialchars($_POST["real_name"]);
+        $param_telephone_number = htmlspecialchars($_POST["telephone_number"]);      
+        $param_postal_code = htmlspecialchars($_POST["postal_code"]);
         
         /* 最新の配送先IDを取得 */
         $sql = "SELECT d_address_id FROM $data WHERE user_id = :user_id ORDER BY d_address_id DESC LIMIT 1";

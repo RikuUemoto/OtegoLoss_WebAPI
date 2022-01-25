@@ -39,24 +39,23 @@ try{
 
 
     // 通報の識別をするためreported_idの左端の文字(u or g)を変数に格納
-    $identifier = substr(htmlspecialchars($_GET["reported_id"]), 0, 1);
+    $identifier = substr(htmlspecialchars($_POST["reported_id"]), 0, 1);
 
 
     //商品通報
     // URL後の各クエリストリングをGET
-    if(isset($_GET["user_id"]) && isset($_GET["reported_id"])
-         && isset($_POST["report_reason"]) && $identifier = 'g') {
+    if(isset($_POST["user_id"]) && isset($_POST["reported_id"])
+         && isset($_POST["report_reason"]) && $identifier == 'g') {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_user_id = htmlspecialchars($_GET["user_id"]);
-        $param_reported_id = htmlspecialchars($_GET["reported_id"]);
+        $param_user_id = htmlspecialchars($_POST["user_id"]);
+        $param_reported_id = htmlspecialchars($_POST["reported_id"]);
         $param_report_reason = htmlspecialchars($_POST["report_reason"]);
         
         /* 最新の通報番号を取得 */
-        $sql = "SELECT report_number FROM $data_report_pro WHERE user_id = :user_id ORDER BY report_number DESC LIMIT 1";
+        $sql = "SELECT report_number FROM $data_report_pro ORDER BY report_number DESC LIMIT 1";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
-        $stmt ->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
@@ -104,24 +103,23 @@ try{
 
     //アカウント通報
     // URL後の各クエリストリングをGET
-    } else if (isset($_GET["user_id"]) && isset($_GET["reported_id"])
-                && isset($_POST["report_reason"]) && $identifier = 'u') {
+    } else if (isset($_POST["user_id"]) && isset($_POST["reported_id"])
+                && isset($_POST["report_reason"]) && $identifier == 'u') {
                  
         // 各クエリストリングをエスケープ(xss対策)
-        $param_user_id = htmlspecialchars($_GET["user_id"]);
-        $param_reported_id = htmlspecialchars($_GET["reported_id"]);
+        $param_user_id = htmlspecialchars($_POST["user_id"]);
+        $param_reported_id = htmlspecialchars($_POST["reported_id"]);
         $param_report_reason = htmlspecialchars($_POST["report_reason"]);
         
         /* 最新の通報番号を取得 */
-        $sql = "SELECT report_number FROM $data_report_user WHERE user_id = :user_id ORDER BY report_number DESC LIMIT 1";
+        $sql = "SELECT report_number FROM $data_report_user ORDER BY report_number DESC LIMIT 1";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
-        $stmt ->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         $result = $stmt->execute();
         if (!$result) {
             // データベースとの接続を切断．
+            print_r($stmt->errorinfo());
             unset($db);
-
             die('最新通報番号の取得に失敗しました。');
         }
         echo 'user_idが'.$param_user_id.'のユーザの最新通報番号取得に成功しました';
@@ -130,7 +128,7 @@ try{
         print($report_number[0]["report_number"]);
 
         // SQL文をセット
-        $sql = "INSERT INTO $data_report_pro VALUES (:report_number, :user_id, :reported_id, :report_reason)";
+        $sql = "INSERT INTO $data_report_user VALUES (:report_number, :user_id, :reported_id, :report_reason)";
         $stmt = $db->prepare($sql);
 
         // idを自動追加する

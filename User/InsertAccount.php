@@ -44,17 +44,17 @@ try{
 
 
     // URL後の各クエリストリングをGET
-    if(isset($_GET["user_password"]) && isset($_GET["user_name"]) 
-        && isset($_GET["user_mail"]) && isset($_GET["gross_weight"])
-        && isset($_GET["user_profile_image"]) && isset($_POST["user_profile_message"]) ) {
+    if(isset($_POST["user_password"]) && isset($_POST["user_name"]) 
+        && isset($_POST["user_mail"]) && isset($_POST["gross_weight"])
+        && isset($_POST["user_profile_image"]) && isset($_POST["user_profile_message"]) ) {
 
 
             // 各クエリストリングをエスケープ(xss対策)
-            $param_upassword = htmlspecialchars($_GET["user_password"]);
-            $param_uname = htmlspecialchars($_GET["user_name"]);
-            $param_umail = htmlspecialchars($_GET["user_mail"]);
-            $param_gweight = htmlspecialchars($_GET["gross_weight"]);
-            $param_uprofileimg = htmlspecialchars($_GET["user_profile_image"]);
+            $param_upassword = htmlspecialchars($_POST["user_password"]);
+            $param_uname = htmlspecialchars($_POST["user_name"]);
+            $param_umail = htmlspecialchars($_POST["user_mail"]);
+            $param_gweight = htmlspecialchars($_POST["gross_weight"]);
+            $param_uprofileimg = htmlspecialchars($_POST["user_profile_image"]);
             $param_uprofilemes = $_POST["user_profile_message"];
 
             // user_profile_imageは任意

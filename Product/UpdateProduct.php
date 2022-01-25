@@ -33,20 +33,20 @@ try{
     $data = "product";
 
     // URL後の各クエリストリングをGET
-    if(isset($_GET["product_id"]) && isset($_GET["product_name"]) 
-        && isset($_POST["product_desc"]) && isset($_GET["product_image"]) 
-        && isset($_POST["recipe_url"]) && isset($_GET["category"]) && isset($_GET["price"]) 
-        && isset($_GET["delivery_meth"]) && isset($_GET["weight"]) && isset($_GET["prefecture"])) {
+    if(isset($_POST["product_id"]) && isset($_POST["product_name"]) 
+        && isset($_POST["product_desc"]) && isset($_POST["product_image"]) 
+        && isset($_POST["recipe_url"]) && isset($_POST["category"]) && isset($_POST["price"]) 
+        && isset($_POST["delivery_meth"]) && isset($_POST["weight"]) && isset($_POST["prefecture"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_proid= htmlspecialchars($_GET["product_id"]);
-        $param_pname= htmlspecialchars($_GET["product_name"]);
-        $param_pimg = htmlspecialchars($_GET["product_image"]);      
-        $param_cate = htmlspecialchars($_GET["category"]);
-        $param_price = htmlspecialchars($_GET["price"]);
-        $param_deliv = htmlspecialchars($_GET["delivery_meth"]);
-        $param_weigh = htmlspecialchars($_GET["weight"]);
-        $param_pref = htmlspecialchars($_GET["prefecture"]);
+        $param_proid= htmlspecialchars($_POST["product_id"]);
+        $param_pname= htmlspecialchars($_POST["product_name"]);
+        $param_pimg = htmlspecialchars($_POST["product_image"]);      
+        $param_cate = htmlspecialchars($_POST["category"]);
+        $param_price = htmlspecialchars($_POST["price"]);
+        $param_deliv = htmlspecialchars($_POST["delivery_meth"]);
+        $param_weigh = htmlspecialchars($_POST["weight"]);
+        $param_pref = htmlspecialchars($_POST["prefecture"]);
         $param_reurl = $_POST['recipe_url'];
 
         // recipe_urlは任意
