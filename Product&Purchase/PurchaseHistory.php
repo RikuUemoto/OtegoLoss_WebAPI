@@ -26,7 +26,7 @@ try{
         $param = htmlspecialchars($_GET["user_id"]);
 
         //SQL構文
-        $table2 = "SELECT product_name, product_image, price
+        $table2 = "SELECT product_id, product_name, product_image, price
 			FROM $data_pro
 			WHERE product_id IN (SELECT product_id 
 						        FROM $data_pur 
