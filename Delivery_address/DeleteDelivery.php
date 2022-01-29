@@ -61,6 +61,24 @@ try{
             unset($db);
             die('配送先情報の削除に失敗しました。');
         }
+
+
+         // SQL文をセット(購入テーブルの更新)
+         $sql = "UPDATE purchase SET address_id = null
+         WHERE address_id = :d_address_id";
+         
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':d_address_id', $param_card, PDO::PARAM_STR);
+        // dbにexecute
+        $result = $stmt->execute();
+        if (!$result) {
+            print_r($stmt->errorinfo());
+            unset($db);
+            die('配送先情報の削除に失敗しました。');
+        }
+
         echo '配送先情報の削除が完了しました';
 
     } else {

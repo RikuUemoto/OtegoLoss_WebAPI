@@ -60,6 +60,24 @@ try{
             unset($db);
             die('決済情報の削除に失敗しました。');
         }
+
+
+        // SQL文をセット(購入テーブルの更新)
+        $sql = "UPDATE purchase SET card_id = null
+                WHERE card_id = :card_id";
+                
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':card_id', $param_card, PDO::PARAM_STR);
+         // dbにexecute
+         $result = $stmt->execute();
+         if (!$result) {
+             print_r($stmt->errorinfo());
+             unset($db);
+             die('決済情報の削除に失敗しました。');
+         }
+
         echo '決済情報の削除が完了しました';
 
     } else {
