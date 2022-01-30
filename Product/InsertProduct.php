@@ -1,20 +1,16 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/24
+    最終更新日：2022/1/30
     目的：  商品テーブルに商品を追加
-    入力：  product_name, product_desc, product_image, recipe_url, category, price,
+    入力：  product_name, product_desc, recipe_url, category, price,
     　　　　delivery_meth, weight, prefecture, seller_id
 
     http通信例：
     http://localhost/OtegoLoss_WebAPI/Product/InsertProduct.php?product_name=僕の名前&product_image=fvsdlvjsk&
     category=%E9%AD%9A&price=3000&delivery_meth=%E5%86%B7%E5%87%8D&weight=500&prefecture=39&seller_id=u0000004
-    
-    $_POST：
-    product_desc=
-    recipe_url=
 
-    その他：product_imageは画像パスを格納，画像自体はサーバのローカルディスク上とか
+    その他：
 */
 
 #ステータスコードを追記する必要あり
@@ -27,7 +23,6 @@ header("Content-Type: application/json; charset=utf-8");
 try{
     // データベースに接続する．
     $db = new PDO('mysql:dbname=software;host=localhost;charset=utf8','root','root');
-    echo "接続OK";
 
     /* 最新の商品IDを取得 */
     $table = "SELECT CAST(RIGHT(product_id, 7) AS signed) AS product_id
@@ -36,18 +31,16 @@ try{
     // クエリ(問い合わせ)
     $sql = $db->query($table);
     $product_num = $sql->fetchAll(PDO::FETCH_ASSOC);
-    print($product_num[0]['product_id']);
 
 
     // URL後の各クエリストリングをGET
     if(isset($_POST["product_name"]) && isset($_POST["product_desc"]) 
-        && isset($_POST["product_image"]) && isset($_POST["category"]) 
+        && isset($_POST["category"]) 
         && isset($_POST["price"]) && isset($_POST["delivery_meth"]) && isset($_POST['recipe_url']) 
         && isset($_POST["weight"]) && isset($_POST["prefecture"]) && isset($_POST["seller_id"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_pname= htmlspecialchars($_POST["product_name"]);
-        $param_pimg = htmlspecialchars($_POST["product_image"]);      
+        $param_pname= htmlspecialchars($_POST["product_name"]);  
         $param_cate = htmlspecialchars($_POST["category"]);
         $param_price = htmlspecialchars($_POST["price"]);
         $param_deliv = htmlspecialchars($_POST["delivery_meth"]);
@@ -77,19 +70,16 @@ try{
 
         // SQL文をセット
         $sql = "INSERT INTO product VALUES (:product_id, :product_name, :product_desc, 
-                :product_image, :recipe_url, :category, :price, :delivery_meth, NOW(),
+                NULL, :recipe_url, :category, :price, :delivery_meth, NOW(),
                 :weight, :prefecture, :seller_id, false)";
         $stmt = $db->prepare($sql);
 
         // idを自動追加する
         // 現在の最新IDの番号を取得
         $new_prnum = (int) $product_num[0]['product_id'];
-        echo $new_prnum;
-        echo gettype($new_prnum);
 
         // 新しいIDに1プラス
         $new_prnum += 1;
-        echo $new_prnum;
 
         // 商品IDとしてふさわしい形（gXXXXXXX）にする．
         $new_proid = 'g'.str_pad(strval($new_prnum), 7, '0', STR_PAD_LEFT);
@@ -98,7 +88,6 @@ try{
         $stmt->bindValue(':product_id', $new_proid, PDO::PARAM_STR);
         $stmt->bindValue(':product_name', $param_pname, PDO::PARAM_STR);
         $stmt->bindValue(':product_desc', $_POST["product_desc"], PDO::PARAM_STR);
-        $stmt->bindValue(':product_image', $param_pimg, PDO::PARAM_STR);
         $stmt->bindValue(':recipe_url', $param_reurl, PDO::PARAM_STR);
         $stmt->bindValue(':category', $param_cate, PDO::PARAM_STR);
         $stmt->bindValue(':price', $param_price, PDO::PARAM_INT);
@@ -115,7 +104,11 @@ try{
             unset($db);
             die('登録失敗しました。');
         }
-        echo '登録完了しました';
+
+        // 登録完了したproduct_idを返す
+        $arr["product_id"] = $new_proid;
+        // 配列をjson形式にデコードして出力, 第二引数は、整形するためのオプション
+        print json_encode($arr, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
     } else {
         // paramの値が不適ならerrorと出力してプログラム終了
