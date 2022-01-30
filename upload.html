@@ -1,0 +1,27 @@
+<!-- ただのupload.phpの動作確認用ファイル
+    作成者：植元 陸
+    最終更新日：2022/1/29
+    目的：  画像をアップロードする
+    入力：  
+    http通信例：
+    https://ec2-13-114-108-27.ap-northeast-1.compute.amazonaws.com/
+    その他："./image/".$_FILES["upfile"]["name"]
+-->
+
+<html>
+<meta name="uploadimage" content="index">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+<title>PHP 変数 $_FILES</title>
+</head>
+<body>
+
+<h1>PHP 変数 $_FILES</h1>
+<form method="post" action="./upload.php" enctype="multipart/form-data">
+<input type="file" name="upfile">
+<textarea name="filename" cols="10" rows="1" placeholder="名前"></textarea><br>
+<input type="submit" value="アップロード">
+</form>
+ 
+</body>
+</html>
