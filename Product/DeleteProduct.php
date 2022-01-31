@@ -1,7 +1,7 @@
 <?php
 /*
     作成者：植元 陸
-    最終更新日：2022/1/11
+    最終更新日：2022/1/30
     目的：  商品テーブルから商品を削除
     入力：  product_id
     http通信例：
@@ -44,8 +44,49 @@ try{
         }
         echo 'product_idが'.$param_proid.'の商品が'.$count.'件見つかりました。';
 
+        /* 購入済みの商品は削除できない */
+        $product = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($product[0]['purchased'] == true) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('商品IDが '.$param_proid.' の商品は購入済みであるため削除できません。');
+        }
 
-        // SQL文をセット
+        /* コメントテーブルでその商品に関するコメントはすべて削除する（商品情報を削除するための準備1） */
+        $sql = "DELETE FROM comment WHERE product_id = :product_id";
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':product_id', $param_proid, PDO::PARAM_STR);
+
+        // dbにexecute
+        $result = $stmt->execute();
+        if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('商品IDが '.$param_proid.' の商品に対するコメントを削除できませんでした。');
+        }
+        echo '商品IDが '.$param_proid.' の商品に対するコメントをすべて削除しました。';
+
+
+        /* 商品通報テーブルでその商品に関する商品通報情報はすべて削除する（商品情報を削除するための準備2） */
+        $sql = "DELETE FROM report_product WHERE reported_id = :reported_id";
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':reported_id', $param_proid, PDO::PARAM_STR);
+
+        // dbにexecute
+        $result = $stmt->execute();
+        if (!$result) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('商品IDが '.$param_proid.' の商品に対する通報情報を削除できませんでした。');
+        }
+        echo '商品IDが '.$param_proid.' の商品に対する通報情報をすべて削除しました。';
+
+
+        /* 商品情報を削除する */
         $sql = "DELETE FROM product WHERE product_id = :product_id";
         $stmt = $db->prepare($sql);
 

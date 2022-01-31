@@ -27,7 +27,7 @@ try{
                     FROM $data, $data_usr
                     WHERE purchased = false
                     AND seller_id = user_id
-                    ORDER BY listing_date ASC LIMIT 20";
+                    ORDER BY listing_date DESC LIMIT 20";
     // メイン処理
     $arr["status"] = "yes";
     $sql2 = $db->query($table2);

@@ -24,35 +24,54 @@ try{
     // URL後のクエリストリングをGET
    if(isset($_GET["d_address_id"]) && isset($_GET["user_id"])) {
 
-    // クエリストリングをエスケープ(xss対策)
-    $param_d_address = htmlspecialchars($_GET["d_address_id"]);
-    $param_user = htmlspecialchars($_GET["user_id"]);
+        // クエリストリングをエスケープ(xss対策)
+        $param_d_address = htmlspecialchars($_GET["d_address_id"]);
+        $param_user = htmlspecialchars($_GET["user_id"]);
 
 
-    /* 削除する対象が存在するかどうか確認 */
-    $sql = "SELECT * FROM delivery_address WHERE d_address_id = :d_address_id AND user_id = :user_id";
-    // クエリ(問い合わせ)
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':d_address_id', $param_d_address, PDO::PARAM_STR);
-    $stmt->bindValue(':user_id', $param_user, PDO::PARAM_STR);
-    $stmt->execute();
-    $count = $stmt->rowCount();
-    if ($count == 0) {
-        // データベースとの接続を切断．
-        unset($db);
+        /* 削除する対象が存在するかどうか確認 */
+        $sql = "SELECT * FROM delivery_address WHERE d_address_id = :d_address_id AND user_id = :user_id";
+        // クエリ(問い合わせ)
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':d_address_id', $param_d_address, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $param_user, PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count == 0) {
+            // データベースとの接続を切断．
+            unset($db);
 
-        die('d_address_idが'.$param_d_address.'でuser_idが'.$param_user.'の配送先情報は見つかりませんでした。');
-    }
-    echo 'd_address_idが'.$param_d_address.'でuser_idが'.$param_user.'の配送先情報が'.$count.'件見つかりました。';
+            die('d_address_idが'.$param_d_address.'でuser_idが'.$param_user.'の配送先情報は見つかりませんでした。');
+        }
+        echo 'd_address_idが'.$param_d_address.'でuser_idが'.$param_user.'の配送先情報が'.$count.'件見つかりました。';
 
 
-    // SQL文をセット
-    $sql = "DELETE FROM delivery_address WHERE d_address_id = :d_address_id AND user_id = :user_id";
-    $stmt = $db->prepare($sql);
+        /* 購入テーブルの配送先IDで使用している部分をNULLに変更（配送先情報を削除するための準備） */
+         $sql = "UPDATE purchase SET address_id = NULL
+         WHERE address_id = :d_address_id AND purchaser_id = :purchaser_id";
+         
+        $stmt = $db->prepare($sql);
 
-    // パラメーターをセット
-    $stmt->bindValue(':d_address_id', $param_d_address, PDO::PARAM_STR);
-    $stmt->bindValue(':user_id', $param_user, PDO::PARAM_STR);
+        // パラメーターをセット
+        $stmt->bindValue(':d_address_id', $param_d_address, PDO::PARAM_STR);
+        $stmt->bindValue(':purchaser_id', $param_user, PDO::PARAM_STR);
+        // dbにexecute
+        $result = $stmt->execute();
+        if (!$result) {
+            print_r($stmt->errorinfo());
+            unset($db);
+            die('購入テーブル上でユーザID '.$param_user.'の配送先ID '.$param_d_address.'をNULLに変更できませんでした。');
+        }
+        echo '購入テーブル上でユーザID '.$param_user.'の配送先ID '.$param_d_address.'をNULLに変更しました。';
+
+
+        /* 配送先情報を削除する */
+        $sql = "DELETE FROM delivery_address WHERE d_address_id = :d_address_id AND user_id = :user_id";
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':d_address_id', $param_d_address, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $param_user, PDO::PARAM_STR);
     
         // dbにexecute
         $result = $stmt->execute();

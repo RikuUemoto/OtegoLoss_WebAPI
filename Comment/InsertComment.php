@@ -24,12 +24,12 @@ try{
 
 
     // URL後の各クエリストリングをGET
-    if(isset($_GET["product_id"]) && isset($_GET["user_id"]) 
+    if(isset($_POST["product_id"]) && isset($_POST["user_id"]) 
                                     && isset($_POST["comment_body"])) {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_proid = htmlspecialchars($_GET["product_id"]);
-        $param_usrid = htmlspecialchars($_GET["user_id"]);
+        $param_proid = htmlspecialchars($_POST["product_id"]);
+        $param_usrid = htmlspecialchars($_POST["user_id"]);
 
         // comment_bodyは空文字列を許さない
         if($_POST['comment_body'] == '') {

@@ -46,7 +46,26 @@ try{
         echo 'card_idが'.$param_card.'でuser_idが'.$param_user.'の決済情報が'.$count.'件見つかりました。';
 
 
-        // SQL文をセット
+        /* 購入テーブルのクレカIDで使用している部分をNULLに変更（クレカ情報を削除するための準備） */
+        $sql = "UPDATE purchase SET card_id = NULL
+                WHERE card_id = :card_id AND purchaser_id = :purchaser_id";
+                
+        $stmt = $db->prepare($sql);
+
+        // パラメーターをセット
+        $stmt->bindValue(':card_id', $param_card, PDO::PARAM_STR);
+        $stmt->bindValue(':purchaser_id', $param_user, PDO::PARAM_STR);
+        // dbにexecute
+        $result = $stmt->execute();
+        if (!$result) {
+            print_r($stmt->errorinfo());
+            unset($db);
+            die('購入テーブル上でユーザID '.$param_user.'のクレカID '.$param_card.'をNULLに変更できませんでした。');
+        }
+        echo '購入テーブル上でユーザID '.$param_user.'のクレカID '.$param_card.'をNULLに変更しました。';
+
+
+        /* クレカ情報を削除する */
         $sql = "DELETE FROM credit_card WHERE card_id = :card_id AND user_id = :user_id";
         $stmt = $db->prepare($sql);
 

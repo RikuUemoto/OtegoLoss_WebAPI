@@ -23,13 +23,13 @@ try{
     // データベース
     $data = "review";
     // URL後の各クエリストリングをGET
-    if(isset($_GET["user_id"]) && isset($_GET["review_user_id"]) && isset($_GET["assessment"]) 
+    if(isset($_POST["user_id"]) && isset($_POST["review_user_id"]) && isset($_POST["assessment"]) 
     && isset($_POST["comment"])  ) {
 
         // 各クエリストリングをエスケープ(xss対策)
-        $param_user_id = htmlspecialchars($_GET["user_id"]); 
-        $param_review_user_id = htmlspecialchars($_GET["review_user_id"]); 
-        $param_assessment = htmlspecialchars($_GET["assessment"]);
+        $param_user_id = htmlspecialchars($_POST["user_id"]); 
+        $param_review_user_id = htmlspecialchars($_POST["review_user_id"]); 
+        $param_assessment = htmlspecialchars($_POST["assessment"]);
         $param_comment = $_POST["comment"];
 
         // commentは任意
