@@ -27,7 +27,7 @@ try{
         $param = htmlspecialchars($_GET["user_id"]);
 
         //SQL構文
-        $table2 = "SELECT product_id,product_name,price,listing_date,purchased
+        $table2 = "SELECT product_id,product_name,price,listing_date,purchased,product_image
                     FROM $data_pro
                     WHERE seller_id = '$param'";
 
