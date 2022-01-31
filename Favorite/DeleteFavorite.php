@@ -35,7 +35,7 @@ try{
         $sql = "SELECT * FROM favorite WHERE user_id = :user_id ";
         // クエリ(問い合わせ)
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         
         $stmt->execute();
         $count = $stmt->rowCount();
@@ -52,7 +52,7 @@ try{
         $stmt = $db->prepare($sql);
 
         // パラメーターをセット
-        $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $param_user_id, PDO::PARAM_STR);
         
         // dbにexecute
         $result = $stmt->execute();
