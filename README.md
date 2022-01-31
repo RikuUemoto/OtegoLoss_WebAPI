@@ -17,6 +17,7 @@
 
 ## Favorite
 * InsertFavorite.php -- お気に入り情報をお気に入りテーブルに追加するWebAPI
+* DeleteFavorite.php -- お気に入りテーブルからお気に入り情報を削除するWebAPI
 * favorite.php -- お気に入り情報を返すWebAPI
 * CheckFavorite.php -- ある出品者を、お気に入り登録しているか確認するWebAPI
 
