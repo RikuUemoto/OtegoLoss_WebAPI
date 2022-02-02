@@ -26,17 +26,22 @@ try{
         $param = htmlspecialchars($_GET["user_id"]);
 
         //SQL構文
-        $table2 = "SELECT product_id, product_name, seller_id, product_image, price
-			FROM $data_pro
-			WHERE product_id IN (SELECT product_id 
-						        FROM $data_pur 
-						        WHERE purchaser_id = '$param' 
-						        ORDER BY purchase_id)";
-
+        $table2 = "SELECT $data_pro.product_id ,product_name, seller_id, product_image, price,delivery_status
+			FROM $data_pur,$data_pro
+			WHERE $data_pur.product_id = $data_pro.product_id
+            AND purchaser_id = '$param' 
+			ORDER BY purchase_id";
+        
         // メイン処理
         $arr["status"] = "yes";
         $sql2 = $db->query($table2);
-
+        
+        if (!$sql2) {
+            // データベースとの接続を切断．
+            unset($db);
+            die('購入履歴情報の取得に失敗しました。');
+        }
+        
         $arr = $sql2 -> fetchAll(PDO::FETCH_ASSOC);
 
     } else {
@@ -50,4 +55,6 @@ try{
 } catch(PDOException $e) {
     echo "error".$e->getMessage();
 }
+// データベースとの接続を切断．
+unset($db);
 ?>
